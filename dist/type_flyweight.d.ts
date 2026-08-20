@@ -7,12 +7,12 @@ export interface DispatchParams {
     type: string;
     infix: string;
 }
-export interface Queueable {
-    queued(): void;
-    fetch(): Promise<void> | undefined;
+export interface Atom {
+    queue(): void;
+    exec(): Promise<void> | undefined;
 }
 export interface ComposerCallback {
-    (params: DispatchParams): Queueable | undefined;
+    (params: DispatchParams): Atom | undefined;
 }
 export interface FetchParamsInterface {
     url: string;

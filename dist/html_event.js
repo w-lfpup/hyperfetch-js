@@ -16,13 +16,13 @@ class HtmlFetch {
         this.#dispatchParams = dispatchParams;
         this.#request = request;
     }
-    queued() {
+    queue() {
         let { dispatchTarget } = this.#dispatchParams;
         let { url, method } = this.#request;
         let event = new HtmlEvent({ status: "queued", url, method });
         dispatchTarget.dispatchEvent(event);
     }
-    fetch() {
+    exec() {
         return fetchHtml(this.#dispatchParams, this.#request);
     }
 }

@@ -6,20 +6,20 @@ declare global {
         ["action"]: ActionEventInterface;
     }
 }
-import type { DispatchParams, Queueable } from "./type_flyweight.js";
+import type { DispatchParams, Atom } from "./type_flyweight.js";
 export interface ActionQueuedInterface {
     status: "queued";
-    type: string;
+    event: Event;
     formData?: FormData;
     target: EventTarget;
-    event: Event;
+    type: string;
 }
 export interface ActionCompleteInterface {
     status: "resolved";
-    type: string;
+    event: Event;
     formData?: FormData;
     target: EventTarget;
-    event: Event;
+    type: string;
 }
 type ActionStatus = ActionQueuedInterface | ActionCompleteInterface;
 export interface ActionEventInterface extends Event {
@@ -29,5 +29,5 @@ export declare class ActionEvent extends Event implements ActionEventInterface {
     action: ActionStatus;
     constructor(actionStatus: ActionStatus, eventInit?: EventInit);
 }
-export declare function composeAction(dispatchParams: DispatchParams): Queueable | undefined;
+export declare function composeAction(dispatchParams: DispatchParams): Atom;
 export {};

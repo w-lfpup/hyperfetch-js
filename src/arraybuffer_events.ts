@@ -10,7 +10,7 @@ declare global {
 import type {
 	DispatchParams,
 	FetchParamsInterface,
-	Queueable,
+	Atom,
 } from "./type_flyweight.js";
 
 import { createFetch } from "./type_flyweight.js";
@@ -60,7 +60,7 @@ export class ArrayBufferEvent
 	}
 }
 
-class ArrayBufferFetch implements Queueable {
+class ArrayBufferFetch implements Atom {
 	#dispatchParams;
 	#request;
 
@@ -69,7 +69,7 @@ class ArrayBufferFetch implements Queueable {
 		this.#request = request;
 	}
 
-	queued(): void {
+	queue(): void {
 		let { dispatchTarget } = this.#dispatchParams;
 		let { url, method } = this.#request;
 
@@ -77,18 +77,18 @@ class ArrayBufferFetch implements Queueable {
 		dispatchTarget.dispatchEvent(event);
 	}
 
-	fetch(): Promise<void> | undefined {
+	exec(): Promise<void> | undefined {
 		return fetchArrayBuffer(this.#dispatchParams, this.#request);
 	}
 }
 
 export function composeArrayBuffer(
 	dispatchParams: DispatchParams,
-): Queueable | undefined {
+): Atom | undefined {
 	let ArrayBufferRequest = createFetch(dispatchParams);
-	if (!ArrayBufferRequest) return;
-
-	return new ArrayBufferFetch(dispatchParams, ArrayBufferRequest);
+	if (ArrayBufferRequest) {
+		return new ArrayBufferFetch(dispatchParams, ArrayBufferRequest);
+	}
 }
 
 function fetchArrayBuffer(

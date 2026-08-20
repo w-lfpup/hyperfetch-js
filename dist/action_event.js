@@ -5,7 +5,7 @@ export class ActionEvent extends Event {
         this.action = actionStatus;
     }
 }
-class ActionFetch {
+class Action {
     #formData = undefined;
     #dispatchParams;
     #actionType;
@@ -16,7 +16,7 @@ class ActionFetch {
         if (target instanceof HTMLFormElement)
             this.#formData = new FormData(target);
     }
-    queued() {
+    queue() {
         let { dispatchTarget, event, target } = this.#dispatchParams;
         let actionEvent = new ActionEvent({
             status: "queued",
@@ -27,7 +27,7 @@ class ActionFetch {
         });
         dispatchTarget.dispatchEvent(actionEvent);
     }
-    fetch() {
+    exec() {
         if (this.#dispatchParams.abortController?.signal.aborted)
             return;
         let { dispatchTarget, event, target } = this.#dispatchParams;
@@ -39,9 +39,8 @@ class ActionFetch {
             event,
         });
         dispatchTarget.dispatchEvent(actionEvent);
-        return;
     }
 }
 export function composeAction(dispatchParams) {
-    return new ActionFetch(dispatchParams, dispatchParams.type);
+    return new Action(dispatchParams, dispatchParams.type);
 }

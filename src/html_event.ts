@@ -10,7 +10,7 @@ declare global {
 import type {
 	DispatchParams,
 	FetchParamsInterface,
-	Queueable,
+	Atom,
 } from "./type_flyweight.js";
 
 import { createFetch } from "./type_flyweight.js";
@@ -57,7 +57,7 @@ export class HtmlEvent extends Event implements HtmlEventInterface {
 	}
 }
 
-class HtmlFetch implements Queueable {
+class HtmlFetch implements Atom {
 	#dispatchParams;
 	#request;
 
@@ -66,7 +66,7 @@ class HtmlFetch implements Queueable {
 		this.#request = request;
 	}
 
-	queued(): void {
+	queue(): void {
 		let { dispatchTarget } = this.#dispatchParams;
 		let { url, method } = this.#request;
 
@@ -74,14 +74,14 @@ class HtmlFetch implements Queueable {
 		dispatchTarget.dispatchEvent(event);
 	}
 
-	fetch(): Promise<void> | undefined {
+	exec(): Promise<void> | undefined {
 		return fetchHtml(this.#dispatchParams, this.#request);
 	}
 }
 
 export function composeHtml(
 	dispatchParams: DispatchParams,
-): Queueable | undefined {
+): Atom | undefined {
 	let htmlRequest = createFetch(dispatchParams);
 	if (!htmlRequest) return;
 

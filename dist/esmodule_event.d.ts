@@ -6,7 +6,7 @@ declare global {
         ["#esmodule"]: EsModuleEventInterface;
     }
 }
-import type { DispatchParams, Queueable } from "./type_flyweight.js";
+import type { DispatchParams, Atom } from "./type_flyweight.js";
 interface EsModuleQueuedInterface {
     status: "queued";
     url: string;
@@ -32,5 +32,5 @@ export declare class EsModuleEvent extends Event implements EsModuleEventInterfa
     requestState: EsModuleRequestState;
     constructor(requestState: EsModuleRequestState, eventInitDict?: EventInit);
 }
-export declare function composeEsModule(dispatchParams: DispatchParams): Queueable | undefined;
+export declare function composeEsModule(dispatchParams: DispatchParams): Atom | undefined;
 export {};

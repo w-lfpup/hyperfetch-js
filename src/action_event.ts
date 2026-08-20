@@ -7,22 +7,22 @@ declare global {
 	}
 }
 
-import type { DispatchParams, Queueable } from "./type_flyweight.js";
+import type { DispatchParams, Atom } from "./type_flyweight.js";
 
 export interface ActionQueuedInterface {
 	status: "queued";
-	type: string;
+	event: Event;
 	formData?: FormData;
 	target: EventTarget;
-	event: Event;
+	type: string;
 }
 
 export interface ActionCompleteInterface {
 	status: "resolved";
-	type: string;
+	event: Event;
 	formData?: FormData;
 	target: EventTarget;
-	event: Event;
+	type: string;
 }
 
 type ActionStatus = ActionQueuedInterface | ActionCompleteInterface;
@@ -40,7 +40,7 @@ export class ActionEvent extends Event implements ActionEventInterface {
 	}
 }
 
-class ActionFetch implements Queueable {
+class Action implements Atom {
 	#formData: FormData | undefined = undefined;
 
 	#dispatchParams;
@@ -55,7 +55,7 @@ class ActionFetch implements Queueable {
 			this.#formData = new FormData(target);
 	}
 
-	queued(): void {
+	queue(): void {
 		let { dispatchTarget, event, target } = this.#dispatchParams;
 
 		let actionEvent = new ActionEvent({
@@ -69,7 +69,7 @@ class ActionFetch implements Queueable {
 		dispatchTarget.dispatchEvent(actionEvent);
 	}
 
-	fetch(): Promise<void> | undefined {
+	exec(): Promise<void> | undefined {
 		if (this.#dispatchParams.abortController?.signal.aborted) return;
 
 		let { dispatchTarget, event, target } = this.#dispatchParams;
@@ -83,12 +83,11 @@ class ActionFetch implements Queueable {
 		});
 
 		dispatchTarget.dispatchEvent(actionEvent);
-		return;
 	}
 }
 
 export function composeAction(
 	dispatchParams: DispatchParams,
-): Queueable | undefined {
-	return new ActionFetch(dispatchParams, dispatchParams.type);
+): Atom {
+	return new Action(dispatchParams, dispatchParams.type);
 }

@@ -16,13 +16,13 @@ class JsonFetch {
         this.#dispatchParams = dispatchParams;
         this.#request = request;
     }
-    queued() {
+    queue() {
         let { target } = this.#dispatchParams;
         let { url, method } = this.#request;
         let event = new JsonEvent({ status: "queued", url, method });
         target.dispatchEvent(event);
     }
-    fetch() {
+    exec() {
         return fetchJson(this.#dispatchParams, this.#request);
     }
 }

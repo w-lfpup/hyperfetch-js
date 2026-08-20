@@ -10,7 +10,7 @@ declare global {
 import type {
 	DispatchParams,
 	FetchParamsInterface,
-	Queueable,
+	Atom,
 } from "./type_flyweight.js";
 
 import { createFetch } from "./type_flyweight.js";
@@ -57,7 +57,7 @@ export class JsonEvent extends Event implements JsonEventInterface {
 	}
 }
 
-class JsonFetch implements Queueable {
+class JsonFetch implements Atom {
 	#dispatchParams;
 	#request;
 
@@ -66,7 +66,7 @@ class JsonFetch implements Queueable {
 		this.#request = request;
 	}
 
-	queued(): void {
+	queue(): void {
 		let { target } = this.#dispatchParams;
 
 		let { url, method } = this.#request;
@@ -74,14 +74,14 @@ class JsonFetch implements Queueable {
 		target.dispatchEvent(event);
 	}
 
-	fetch(): Promise<void> | undefined {
+	exec(): Promise<void> | undefined {
 		return fetchJson(this.#dispatchParams, this.#request);
 	}
 }
 
 export function composeJson(
 	dispatchParams: DispatchParams,
-): Queueable | undefined {
+): Atom | undefined {
 	let request = createFetch(dispatchParams);
 	if (!request) return;
 

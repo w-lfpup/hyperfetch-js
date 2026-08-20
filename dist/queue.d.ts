@@ -1,6 +1,6 @@
-import type { DispatchParams, Queueable } from "./type_flyweight.js";
+import type { DispatchParams, Atom } from "./type_flyweight.js";
 export declare class Queue {
     #private;
-    enqueue(atom: Queueable): void;
+    enqueue(atom: Atom): void;
 }
-export declare function queued(dispatchParams: DispatchParams, atom: Queueable): boolean;
+export declare function queued(dispatchParams: DispatchParams, atom: Atom): boolean;

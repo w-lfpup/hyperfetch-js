@@ -1,5 +1,5 @@
 /*
-	For now throttle-state resides in module scope.
+	For now throttle-state resides in module scope @ window.$hyperevents.throttler
 	
 	A stretch-goal might be attaching the queue map to the window itself.
 */
