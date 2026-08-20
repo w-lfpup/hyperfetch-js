@@ -16,21 +16,21 @@ class ArrayBufferFetch {
         this.#dispatchParams = dispatchParams;
         this.#request = request;
     }
-    queued() {
+    queue() {
         let { dispatchTarget } = this.#dispatchParams;
         let { url, method } = this.#request;
         let event = new ArrayBufferEvent({ status: "queued", url, method });
         dispatchTarget.dispatchEvent(event);
     }
-    fetch() {
+    exec() {
         return fetchArrayBuffer(this.#dispatchParams, this.#request);
     }
 }
 export function composeArrayBuffer(dispatchParams) {
     let ArrayBufferRequest = createFetch(dispatchParams);
-    if (!ArrayBufferRequest)
-        return;
-    return new ArrayBufferFetch(dispatchParams, ArrayBufferRequest);
+    if (ArrayBufferRequest) {
+        return new ArrayBufferFetch(dispatchParams, ArrayBufferRequest);
+    }
 }
 function fetchArrayBuffer(dispatchParams, request) {
     if (dispatchParams.abortController?.signal.aborted)

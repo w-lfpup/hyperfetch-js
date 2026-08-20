@@ -140,10 +140,10 @@ function dispatchEvent(params: DispatchParams) {
 	let composer = hEventReactions.get(kind);
 	if (!composer) return;
 
-	let queueable = composer(params);
-	if (!queueable) return;
+	let Atom = composer(params);
+	if (!Atom) return;
 
-	if (queued(params, queueable)) return;
+	if (queued(params, Atom)) return;
 
-	queueable.fetch();
+	Atom.exec();
 }

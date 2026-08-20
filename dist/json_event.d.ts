@@ -6,7 +6,7 @@ declare global {
         ["#json"]: JsonEventInterface;
     }
 }
-import type { DispatchParams, FetchParamsInterface, Queueable } from "./type_flyweight.js";
+import type { DispatchParams, FetchParamsInterface, Atom } from "./type_flyweight.js";
 interface JsonRequestQueuedInterface extends FetchParamsInterface {
     status: "queued";
 }
@@ -31,5 +31,5 @@ export declare class JsonEvent extends Event implements JsonEventInterface {
     constructor(requestState: JsonRequestState, eventInitDict?: EventInit);
     get requestState(): JsonRequestState;
 }
-export declare function composeJson(dispatchParams: DispatchParams): Queueable | undefined;
+export declare function composeJson(dispatchParams: DispatchParams): Atom | undefined;
 export {};

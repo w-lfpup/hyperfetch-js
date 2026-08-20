@@ -6,7 +6,7 @@ declare global {
         ["#html"]: HtmlEventInterface;
     }
 }
-import type { DispatchParams, FetchParamsInterface, Queueable } from "./type_flyweight.js";
+import type { DispatchParams, FetchParamsInterface, Atom } from "./type_flyweight.js";
 interface HtmlRequestQueuedInterface extends FetchParamsInterface {
     status: "queued";
 }
@@ -31,5 +31,5 @@ export declare class HtmlEvent extends Event implements HtmlEventInterface {
     constructor(requestState: HtmlRequestState, eventInit?: EventInit);
     get requestState(): HtmlRequestState;
 }
-export declare function composeHtml(dispatchParams: DispatchParams): Queueable | undefined;
+export declare function composeHtml(dispatchParams: DispatchParams): Atom | undefined;
 export {};

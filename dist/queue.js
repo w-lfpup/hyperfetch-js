@@ -5,7 +5,7 @@ export class Queue {
     #outbound = [];
     enqueue(atom) {
         this.#inbound.push(atom);
-        atom.queued();
+        atom.queue();
         if (!this.#inRoute)
             this.#queueAtom();
     }
@@ -22,7 +22,7 @@ export class Queue {
     }
     async #execAtom() {
         if (this.#inRoute) {
-            await this.#inRoute.fetch();
+            await this.#inRoute.exec();
             this.#queueAtom();
         }
     }

@@ -6,7 +6,7 @@ declare global {
         ["#arraybuffer"]: ArrayBufferEventInterface;
     }
 }
-import type { DispatchParams, FetchParamsInterface, Queueable } from "./type_flyweight.js";
+import type { DispatchParams, FetchParamsInterface, Atom } from "./type_flyweight.js";
 interface ArrayBufferRequestQueuedInterface extends FetchParamsInterface {
     status: "queued";
 }
@@ -31,5 +31,5 @@ export declare class ArrayBufferEvent extends Event implements ArrayBufferEventI
     constructor(requestState: ArrayBufferRequestState, eventInit?: EventInit);
     get requestState(): ArrayBufferRequestState;
 }
-export declare function composeArrayBuffer(dispatchParams: DispatchParams): Queueable | undefined;
+export declare function composeArrayBuffer(dispatchParams: DispatchParams): Atom | undefined;
 export {};

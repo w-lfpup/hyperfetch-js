@@ -8,7 +8,7 @@ declare global {
 }
 
 import memory from "./memory.js";
-import type { DispatchParams, Queueable } from "./type_flyweight.js";
+import type { DispatchParams, Atom } from "./type_flyweight.js";
 
 interface EsModuleQueuedInterface {
 	status: "queued";
@@ -57,7 +57,7 @@ export class EsModuleEvent extends Event implements EsModuleEventInterface {
 }
 
 // needs to be dispatch params and fetch params?
-class EsModuleImport implements Queueable {
+class EsModuleImport implements Atom {
 	#dispatchParams: DispatchParams;
 	#importParams;
 
@@ -66,7 +66,7 @@ class EsModuleImport implements Queueable {
 		this.#importParams = importParams;
 	}
 
-	queued(): void {
+	queue(): void {
 		let event = new EsModuleEvent({
 			status: "queued",
 			...this.#importParams,
@@ -75,14 +75,14 @@ class EsModuleImport implements Queueable {
 		document.dispatchEvent(event);
 	}
 
-	fetch(): Promise<void> | undefined {
+	exec(): Promise<void> | undefined {
 		return importEsModule(this.#dispatchParams, this.#importParams);
 	}
 }
 
 export function composeEsModule(
 	dispatchParams: DispatchParams,
-): Queueable | undefined {
+): Atom | undefined {
 	let { target, dispatchTarget, event, abortController } = dispatchParams;
 
 	let urlAttr = target.getAttribute(`${event.type}:url`);

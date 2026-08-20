@@ -13,14 +13,14 @@ class EsModuleImport {
         this.#dispatchParams = dispatchParams;
         this.#importParams = importParams;
     }
-    queued() {
+    queue() {
         let event = new EsModuleEvent({
             status: "queued",
             ...this.#importParams,
         });
         document.dispatchEvent(event);
     }
-    fetch() {
+    exec() {
         return importEsModule(this.#dispatchParams, this.#importParams);
     }
 }
