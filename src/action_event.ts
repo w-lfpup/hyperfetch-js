@@ -40,7 +40,7 @@ export class ActionEvent extends Event implements ActionEventInterface {
 	}
 }
 
-class ActionFetch implements Atom {
+class Action implements Atom {
 	#formData: FormData | undefined = undefined;
 
 	#dispatchParams;
@@ -89,5 +89,5 @@ class ActionFetch implements Atom {
 export function composeAction(
 	dispatchParams: DispatchParams,
 ): Atom {
-	return new ActionFetch(dispatchParams, dispatchParams.type);
+	return new Action(dispatchParams, dispatchParams.type);
 }

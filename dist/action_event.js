@@ -5,7 +5,7 @@ export class ActionEvent extends Event {
         this.action = actionStatus;
     }
 }
-class ActionFetch {
+class Action {
     #formData = undefined;
     #dispatchParams;
     #actionType;
@@ -42,5 +42,5 @@ class ActionFetch {
     }
 }
 export function composeAction(dispatchParams) {
-    return new ActionFetch(dispatchParams, dispatchParams.type);
+    return new Action(dispatchParams, dispatchParams.type);
 }
